@@ -1,0 +1,18 @@
+version: "3.4"
+services:
+  nginx-nfs-server:
+    container_name: nginx-nfs-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always  
+    ports:
+      - 8081:80
+    volumes:
+      - nfs-volume:/usr/share/nginx/html
+volumes:
+  nfs-volume:
+    driver_opts:
+      type: "nfs"
+      o: "addr=NFS_SERVER_IP,nolock,ro,soft,nfsvers=NFS_VERSION" # 10.3.23.15 (example) | 4.1 (example)
+      device: ":NFS_FOLDER" # /mnt/data (example)
